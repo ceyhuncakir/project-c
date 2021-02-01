@@ -1,3 +1,3 @@
 # project-c
 
-# Ceyhun Cakir | 1784480
+- Ceyhun Cakir | 1784480
