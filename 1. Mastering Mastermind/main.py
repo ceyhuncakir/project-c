@@ -123,7 +123,8 @@ def player_vs_bot():
         else:
           cnt += 1
           guess = list(map(int, input("\tPoging {}: ".format(cnt))))
-          
+
+          # Feedback van rode / witte pins
           feedback = evalueren(guess, code)
 
           # Visueel overzicht van gekozen kleuren.
