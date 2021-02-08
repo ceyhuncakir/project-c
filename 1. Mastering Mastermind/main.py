@@ -141,10 +141,13 @@ def player_vs_bot():
           write_highscore()
 
 def evalueren(guess, code):
-
-    matches = sum((Counter(code) & Counter(guess)).values()) # sum op van code en guess
-    bulls = sum(c == g for c, g in zip(code, guess)) # rode pins count
-    return bulls, matches - bulls # return van het rode / witte pins
+    
+    # sum op van code en guess
+    matches = sum((Counter(code) & Counter(guess)).values()) 
+    # rode pins count
+    bulls = sum(c == g for c, g in zip(code, guess)) 
+    # return van het rode / witte pins
+    return bulls, matches - bulls 
 
 def write_highscore():
 
