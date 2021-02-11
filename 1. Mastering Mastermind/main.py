@@ -1,5 +1,6 @@
 from termcolor import colored
-from random import randrange
+from random import *
+import random
 from collections import Counter
 from itertools import product
 import time
@@ -44,8 +45,8 @@ def rules():
 def type_of_algorithm():
     print(colored('''
     @====================== ALGORITME =======================@\n
-    1: Knuth algoritme.
-    2: SOON.
+    1: Knuth Algoritme.
+    2: Simple Algoritme.
     3: SOON.
     4: terug naar main menu\n
     @========================================================@\n
@@ -89,15 +90,32 @@ def algorithm_menu():
     while True:
         option = int(input("\tSelecteer een optie: "))
         if option == 1:
-            print("SOON")
+            code = input("\tGeef een code van 4 nummers op: ")
+            knuth_alg(code)
         elif option == 2:
-            print("SOON")
+            code = input("\tGeef een code van 4 nummers op: ")
+            simple_alg(code)
         elif option == 3:
             print("SOON")
         elif option == 4:
             menu()
         else:
             print("\tKies uit 1, 2, 3 of 4.")
+
+def evalueren(guess, code):
+
+    matches = sum((Counter(code) & Counter(guess)).values())
+    bulls = sum(c == g for c, g in zip(code, guess))
+    return bulls, matches - bulls
+
+def print_result(cnt, colorpins, feedback):
+    print("\n\t#",cnt,"|", colored("X ", pins[colorpins[0]]) + "|", colored("X ", pins[colorpins[1]]) + "|", colored("X ", pins[colorpins[2]]) + "|", colored("X ", pins[colorpins[3]]) + "|", end=" ")
+    print(colored("R:", "red"), feedback[0], end=", ")
+    print("W:", feedback[1], "\n")
+
+def colorpins_add(guess, colorpins):
+    for item in range(0, len(guess), 1):
+        colorpins.append(int(guess[item: item + 1]))
 
 
 def player_vs_bot():
@@ -108,31 +126,25 @@ def player_vs_bot():
     code = []
     guess=[]
 
-    for i in range(0,4):
+    for i in range(0, 4):
         code.append(randrange(1, 7))
     print(colored("\tDe computer heeft een 4 kleurige code gekozen.\n", "yellow"))
-    print(code)
+
+    cnt = 0
 
     # checked of de code niet gekraakt is door de codebreaker
     while guess != code:
-        global cnt
 
-        if cnt > 11:
+        if cnt == 12:
             print(colored("\tTeveel pogingen. De computer heeft gewonnen.\n", "red"))
             break
         else:
           cnt += 1
+
           guess = list(map(int, input("\tPoging {}: ".format(cnt))))
+          feedback = evaluate(guess, code)
 
-          # Feedback van rode / witte pins
-          feedback = evalueren(guess, code)
-
-          # Visueel overzicht van gekozen kleuren.
-          print("\n\t#",cnt,"|", colored("X ", pins[guess[0]]) + "|", colored("X ", pins[guess[1]]) + "|", colored("X ", pins[guess[2]]) + "|", colored("X ", pins[guess[3]]) + "|", end=" ")
-
-          # Aantal rode en witte pinnen per rij.
-          print(colored("R:", "red"), feedback[0], end=", ")
-          print("W:", feedback[1], "\n")
+          print_result(cnt, guess, feedback)
 
         # Alle kleuren zijn goed gegokt.
         if guess == code:
@@ -140,14 +152,83 @@ def player_vs_bot():
           print(colored("    @========================================================@\n", "yellow"))
           write_highscore()
 
-def evalueren(guess, code):
-    
-    # sum op van code en guess
-    matches = sum((Counter(code) & Counter(guess)).values()) 
-    # rode pins count
-    bulls = sum(c == g for c, g in zip(code, guess)) 
-    # return van het rode / witte pins
-    return bulls, matches - bulls 
+
+def knuth_alg(code):
+
+    #codes worden gecreert
+    list_codes = [''.join(i) for i in product('123456', repeat=4)]
+
+    #hier word een object callable gemaakt voor het evaluaten voor alle elementen in list_codes
+    key = lambda guess: max(Counter(evalueren(guess, code) for code in list_codes).values())
+    guess = '1122'
+
+    colorpins = []
+    cnt = 1
+
+    while True:
+        #huidige feedback van het guess
+        feedback = evalueren(guess, code)
+        # gaat over de lijst met alle mogelijke cobinaties heen en evalueert alle elementen in het lijst en kijkt of het gelijkwaardig staat aan het huidige guess feedback
+        list_codes = [code for code in list_codes if evalueren(guess, code) == feedback]
+
+        colorpins_add(guess, colorpins)
+
+        print_result(cnt, colorpins, feedback)
+
+        colorpins.clear()
+
+        # hier word er gekeken of guess gelijkwaardig staat code
+        if guess == code:
+            print(colored("\tde code was opgelost in:", "green"), cnt, "pogingen! \n\t")
+            print(colored("\tde tijd die koste om het code te kraken was:",  "green"), str(round(end - start, 6)), "seconden", "\n\t")
+            break
+
+        #hier word er gekeken of er nog een code in het list zit met mogelijke codes
+        if len(list_codes) == 1:
+            guess = list_codes[0]
+            end = time.time()
+            cnt += 1
+        else:
+            #hier voert die het guess uit
+            guess = min(list_codes, key=key)
+            start = time.time()
+            cnt += 1
+
+def simple_alg(code):
+
+    list_codes = [''.join(i) for i in product('123456', repeat=4)] # alle mogelijke codes
+
+    guess = '1212'
+
+    colorpins = []
+    cnt = 1
+
+    while True:
+        #huidige feedback van het guess
+        feedback = evalueren(guess, code)
+        # gaat over de lijst met alle mogelijke cobinaties heen en evalueert alle elementen in het lijst en kijkt of het gelijkwaardig staat aan het huidige guess feedback
+        list_codes = [code for code in list_codes if evalueren(guess, code) == feedback]
+
+        colorpins_add(guess, colorpins)
+
+        print_result(cnt, colorpins, feedback)
+
+        colorpins.clear()
+
+        # hier word er gekeken of guess gelijkwaardig staat code
+        if guess == code:
+            print(colored("\tde code was opgelost in:", "green"), cnt, "pogingen! \n\t")
+            break
+
+        #hier word er gekeken of er nog een code in het list zit met mogelijke codes
+        if len(list_codes) == 1:
+            guess = list_codes[0]
+            cnt += 1
+        else:
+            #hier voert die het guess uit
+            guess = list_codes[random.randint(0, random.randint(0, len(list_codes) - 1))]
+            cnt += 1
+
 
 def write_highscore():
 
@@ -167,6 +248,14 @@ def read_highscore():
         all= pickle.load(file)
         values = " - ".join(map(str, all))
         print("\t", values)
+
+
+def limit():
+
+    try:
+        assert len(str(guess)) == 4
+    except AssertionError:
+        print("Voer precies 4 nummers in.")
 
 if __name__ == '__main__':
     menu()
