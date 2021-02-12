@@ -173,7 +173,9 @@ def knuth_alg(code):
     colorpins = []
     cnt = 1
 
-    while True:
+    continue_loop = True
+
+    while continue_loop == True:
         #huidige feedback van het guess
         feedback = evalueren(guess, code)
         # gaat over de lijst met alle mogelijke cobinaties heen en evalueert alle elementen in het lijst en kijkt of het gelijkwaardig staat aan het huidige guess feedback
@@ -189,7 +191,7 @@ def knuth_alg(code):
         if guess == code:
             print(colored("\tde code was opgelost in:", "green"), cnt, "pogingen! \n\t")
             print(colored("\tde tijd die koste om het code te kraken was:",  "green"), str(round(end - start, 6)), "seconden", "\n\t")
-            break
+            continue_loop = False
 
         #hier word er gekeken of er nog een code in het list zit met mogelijke codes
         if len(list_codes) == 1:
@@ -212,7 +214,9 @@ def simple_alg(code):
     colorpins = []
     cnt = 1
 
-    while True:
+    continue_loop = True
+
+    while continue_loop == True:
         #huidige feedback van het guess
         feedback = evalueren(guess, code)
         # gaat over de lijst met alle mogelijke cobinaties heen en evalueert alle elementen in het lijst en kijkt of het gelijkwaardig staat aan het huidige guess feedback
@@ -227,7 +231,7 @@ def simple_alg(code):
         # hier word er gekeken of guess gelijkwaardig staat code
         if guess == code:
             print(colored("\tde code was opgelost in:", "green"), cnt, "pogingen! \n\t")
-            break
+            continue_loop = False
 
         #hier word er gekeken of er nog een code in het list zit met mogelijke codes
         if len(list_codes) == 1:
@@ -254,7 +258,9 @@ def ozmen_algoritme(code):
     colorpins = []
     cnt = 1
 
-    while True:
+    continue_loop = True
+
+    while continue_loop == True:
         #huidige feedback van het guess
         feedback = evalueren(guess, code)
         # gaat over de lijst met alle mogelijke cobinaties heen en evalueert alle elementen in het lijst en kijkt of het gelijkwaardig staat aan het huidige guess feedback
@@ -269,8 +275,7 @@ def ozmen_algoritme(code):
         # hier wordt er gekeken of guess gelijkwaardig staat code
         if guess == code:
             print(colored("\tde code was opgelost in:", "green"), cnt, "pogingen! \n\t")
-            break
-
+            continue_loop = False
         #hier word er gekeken of er nog een code in het list zit met mogelijke codes
         if len(list_codes) == 1:
             guess = list_codes[0]
