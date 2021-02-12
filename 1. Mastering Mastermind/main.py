@@ -12,13 +12,6 @@ colors = ["green", "blue", "yellow", "red", "cyan"]
 pins = ["cyan", "magenta", "white", "blue", "yellow", "green", "red"]
 cnt = 0
 
-#TODO Fix: getal hoger dan 6, mag niet (crashed de game). def LIMIT().
-#TODO Fix: Witte pin 90% gefixed, ik weet het laatste probleem.
-#tempcode = code.copy()
-#wanneer die matcht:
-#bijv. vervang de matchende pin met een pin "X"
-#(of ander symbool dat nooit voorkomt)
-
 def start():
 
     print(colored('''
