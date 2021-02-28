@@ -26,6 +26,11 @@ def start():
     ''', colors[randrange(5)]))
 
 def rules():
+
+    """
+    Spelregels banner zodat de speler kan zien wat de regels zijn voor het geselecteerde keuze.
+    """
+
     print(colored('''
     @====================== SPELREGELS ======================@\n
     1: Rode pin = Kleur komt voor in de code en staat op de juiste plek.
@@ -36,6 +41,11 @@ def rules():
     ''', colors[randrange(5)]))
 
 def type_of_algorithm():
+
+    """
+    Algoritme menu banner zodat de speler kan zien wat welke opties hij/zij kan uitvoeren.
+    """
+
     print(colored('''
     @====================== ALGORITME =======================@\n
     1: Knuth Algoritme.
@@ -46,6 +56,11 @@ def type_of_algorithm():
     ''', colors[randrange(5)]))
 
 def game_menu_text():
+
+    """
+    Game menu banner zodat de speler kan zien wat welke opties hij/zij kan uitvoeren.
+    """
+
     print(colored('''
     @====================== GAME MENU =======================@\n
     1 - Speler tegen de computer
@@ -57,6 +72,13 @@ def game_menu_text():
     ''', colors[randrange(5)]))
 
 def menu():
+
+    """
+    game menu voor het keuze van het spel.
+    Speler kiest een optie van 1 tot 5.
+    Na dat de speler de input heeft gegeven word de geselecteerde game optie uitgevoerd
+    Als de keuze buiten de juiste opties valt word er een print statement terug gereturned
+    """
 
     start()
     game_menu_text()
@@ -78,6 +100,13 @@ def menu():
 
 def algorithm_menu():
 
+    """
+    Sub menu voor het keuze van de algoritme.
+    Speler kiest een optie van 1 tot 4.
+    Na dat de speler de input heeft gegeven word de algoritme geactiveert
+    Als de keuze buiten de juiste opties valt word er een print statement terug gereturned
+    """
+
     type_of_algorithm()
 
     while True:
@@ -97,6 +126,12 @@ def algorithm_menu():
             print("\tKies uit 1, 2, 3 of 4.")
 
 def evalueren(guess, code):
+
+    """
+    Functie voor het evalueren van de guess
+    De rode / witte pinnen worden gereturned
+    """
+
     # alles word opgetelt van code en guess en daar van kan je values pakken
     matches = sum((Counter(code) & Counter(guess)).values())
     # alles opgetelt en gekeken of code gelijkwaardig is aan guess en daarvan worden het bepaald of het bulls zijn of niet
@@ -110,13 +145,33 @@ def print_result(cnt, colorpins, feedback):
     print("W:", feedback[1], "\n")
 
 def colorpins_add(guess, colorpins):
+
+    """
+    Functie voor het voegen van color pins binnen het spel.
+    lijst colorpins word gevult met het guess die het speler heeft opgegeven
+    """
+
     for item in range(0, len(guess), 1):
         colorpins.append(int(guess[item: item + 1]))
 
 def colorpins_clear(colorpins):
+
+    """
+    Functie voor het verwijderen van colorpins.
+    """
+
     colorpins.clear()
 
 def player_vs_bot():
+
+    """
+    Functie voor het geselecteerde keuze player vs bot.
+    Hier genereert de computer een willekeurige code uit voor het speler.
+    speler krijgt de keuze om de code in te voeren die hij/zei denkt.
+    als de speler de juiste pinnen goed heeft krijgt die rode / witte pinnen te zien.
+    de speler heeft uiteindelijk 12 pogingen tot de spel is afgelopen
+    als de speler wint krijgt de speler een bericht te zien dat hij/zei heeft gewonnen
+    """
 
     rules()
 
@@ -155,6 +210,15 @@ def player_vs_bot():
 
 
 def knuth_alg(code):
+
+    """
+    Functie voor het geselecteerde keuze bot vs player.
+    Hier typed de speler een willekeurige code uit voor de computer.
+    computer voert de codes in gebaseert op het knuth algoritme
+    als de computer de juiste pinnen goed heeft geraden word dat geevalueert.
+    de computer heeft uiteindelijk 12 pogingen tot de spel is afgelopen
+    als de computer wint krijgt de computer een bericht te zien dat hij/zei heeft gewonnen
+    """
 
     #codes worden gecreert
     list_codes = [''.join(i) for i in product('123456', repeat=4)]
@@ -199,6 +263,16 @@ def knuth_alg(code):
 
 def simple_alg(code):
 
+    """
+    Functie voor het geselecteerde keuze bot vs player.
+    Hier typed de speler een willekeurige code uit voor de computer.
+    computer voert de codes in gebaseert op het simple algoritme
+    als de computer de juiste pinnen goed heeft geraden word dat geevalueert.
+    de computer voert na het eerste poging altijd een willekeurige random guess uit het lijst
+    de computer heeft uiteindelijk 12 pogingen tot de spel is afgelopen
+    als de computer wint krijgt de computer een bericht te zien dat hij/zei heeft gewonnen
+    """
+
     #internal list generated
     list_codes = [''.join(i) for i in product('123456', repeat=4)] # alle mogelijke codes
 
@@ -236,6 +310,17 @@ def simple_alg(code):
             cnt += 1
 
 def ozmen_algoritme(code):
+
+    """
+    Functie voor het geselecteerde keuze bot vs player.
+    Hier typed de speler een willekeurige code uit voor de computer.
+    computer voert de codes in gebaseert op het ozmen_algoritme algoritme
+    als de computer de juiste pinnen goed heeft geraden word dat geevalueert.
+    de computer voert een willekeurige random gok in het eerste poging
+    de computer voert na het eerste poging altijd de laatse item binnen het lijst uit als input
+    de computer heeft uiteindelijk 12 pogingen tot de spel is afgelopen
+    als de computer wint krijgt de computer een bericht te zien dat hij/zei heeft gewonnen
+    """
 
     list_codes = [''.join(i) for i in product('123456', repeat=4)] # alle mogelijke codes
 
@@ -281,6 +366,11 @@ def ozmen_algoritme(code):
 
 def write_highscore():
 
+    """
+    Functie voor het schrijven van de score.
+    Hier word de naam + score van het speler opgeslagen in een pickle bestand
+    """
+
     save_score = input("\tWil je deze score opslaan (J/N): ").lower()
     all_scores = []
 
@@ -293,12 +383,23 @@ def write_highscore():
 
 def read_highscore():
 
+    """
+    Functie voor het lezen van de score.
+    Hier word de naam + score van het speler uitgelezen uit een pickle bestand
+    """
+
+
     with open("highscore.pkl", "rb") as file:
         all= pickle.load(file)
         values = " - ".join(map(str, all))
         print("\t", values)
 
 def limit(code):
+
+    """
+    Functie voor het checken of de lengte van het code buiten de 4 cijfers vallen.
+    Als het buite de 4 cijfers vallen word er een AssertionError terug gestuurd naar het speler
+    """
 
     try:
         assert str(len(code)) == 4
@@ -307,4 +408,9 @@ def limit(code):
         menu()
 
 if __name__ == '__main__':
+
+    """
+    initialiseren van het menu
+    """
+
     menu()
