@@ -14,6 +14,10 @@ cnt = 0
 
 def start():
 
+    """
+    Mastermind banner.
+    """
+
     print(colored('''
     @========================================================@
                          _                      _           _
@@ -74,10 +78,7 @@ def game_menu_text():
 def menu():
 
     """
-    game menu voor het keuze van het spel.
-    Speler kiest een optie van 1 tot 5.
-    Na dat de speler de input heeft gegeven word de geselecteerde game optie uitgevoerd
-    Als de keuze buiten de juiste opties valt word er een print statement terug gereturned
+    game menu voor het keuze van het gamemode.
     """
 
     start()
@@ -102,9 +103,6 @@ def algorithm_menu():
 
     """
     Sub menu voor het keuze van de algoritme.
-    Speler kiest een optie van 1 tot 4.
-    Na dat de speler de input heeft gegeven word de algoritme geactiveert
-    Als de keuze buiten de juiste opties valt word er een print statement terug gereturned
     """
 
     type_of_algorithm()
@@ -129,7 +127,6 @@ def evalueren(guess, code):
 
     """
     Functie voor het evalueren van de guess
-    De rode / witte pinnen worden gereturned
     """
 
     # alles word opgetelt van code en guess en daar van kan je values pakken
@@ -148,29 +145,15 @@ def colorpins_add(guess, colorpins):
 
     """
     Functie voor het voegen van color pins binnen het spel.
-    lijst colorpins word gevult met het guess die het speler heeft opgegeven
     """
 
     for item in range(0, len(guess), 1):
         colorpins.append(int(guess[item: item + 1]))
 
-def colorpins_clear(colorpins):
-
-    """
-    Functie voor het verwijderen van colorpins.
-    """
-
-    colorpins.clear()
-
 def player_vs_bot():
 
     """
     Functie voor het geselecteerde keuze player vs bot.
-    Hier genereert de computer een willekeurige code uit voor het speler.
-    speler krijgt de keuze om de code in te voeren die hij/zei denkt.
-    als de speler de juiste pinnen goed heeft krijgt die rode / witte pinnen te zien.
-    de speler heeft uiteindelijk 12 pogingen tot de spel is afgelopen
-    als de speler wint krijgt de speler een bericht te zien dat hij/zei heeft gewonnen
     """
 
     rules()
@@ -212,12 +195,7 @@ def player_vs_bot():
 def knuth_alg(code):
 
     """
-    Functie voor het geselecteerde keuze bot vs player.
-    Hier typed de speler een willekeurige code uit voor de computer.
-    computer voert de codes in gebaseert op het knuth algoritme
-    als de computer de juiste pinnen goed heeft geraden word dat geevalueert.
-    de computer heeft uiteindelijk 12 pogingen tot de spel is afgelopen
-    als de computer wint krijgt de computer een bericht te zien dat hij/zei heeft gewonnen
+    Functie voor het geselecteerde keuze bot vs player (Knuth algoritme).
     """
 
     #codes worden gecreert
@@ -242,7 +220,7 @@ def knuth_alg(code):
 
         print_result(cnt, colorpins, feedback)
 
-        colorpins_clear(colorpins)
+        colorpins.clear()
 
         # hier word er gekeken of guess gelijkwaardig staat code
         if guess == code:
@@ -264,13 +242,7 @@ def knuth_alg(code):
 def simple_alg(code):
 
     """
-    Functie voor het geselecteerde keuze bot vs player.
-    Hier typed de speler een willekeurige code uit voor de computer.
-    computer voert de codes in gebaseert op het simple algoritme
-    als de computer de juiste pinnen goed heeft geraden word dat geevalueert.
-    de computer voert na het eerste poging altijd een willekeurige random guess uit het lijst
-    de computer heeft uiteindelijk 12 pogingen tot de spel is afgelopen
-    als de computer wint krijgt de computer een bericht te zien dat hij/zei heeft gewonnen
+    Functie voor het geselecteerde keuze bot vs player (simple algoritme).
     """
 
     #internal list generated
@@ -293,7 +265,7 @@ def simple_alg(code):
 
         print_result(cnt, colorpins, feedback)
 
-        colorpins_clear(colorpins)
+        colorpins.clear()
 
         # hier word er gekeken of guess gelijkwaardig staat code
         if guess == code:
@@ -312,14 +284,7 @@ def simple_alg(code):
 def ozmen_algoritme(code):
 
     """
-    Functie voor het geselecteerde keuze bot vs player.
-    Hier typed de speler een willekeurige code uit voor de computer.
-    computer voert de codes in gebaseert op het ozmen_algoritme algoritme
-    als de computer de juiste pinnen goed heeft geraden word dat geevalueert.
-    de computer voert een willekeurige random gok in het eerste poging
-    de computer voert na het eerste poging altijd de laatse item binnen het lijst uit als input
-    de computer heeft uiteindelijk 12 pogingen tot de spel is afgelopen
-    als de computer wint krijgt de computer een bericht te zien dat hij/zei heeft gewonnen
+    Functie voor het geselecteerde keuze bot vs player (ozmen_algoritme).
     """
 
     list_codes = [''.join(i) for i in product('123456', repeat=4)] # alle mogelijke codes
@@ -348,7 +313,7 @@ def ozmen_algoritme(code):
 
         print_result(cnt, colorpins, feedback)
 
-        colorpins_clear(colorpins)
+        colorpins.clear()
 
         # hier wordt er gekeken of guess gelijkwaardig staat code
         if guess == code:
@@ -368,7 +333,6 @@ def write_highscore():
 
     """
     Functie voor het schrijven van de score.
-    Hier word de naam + score van het speler opgeslagen in een pickle bestand
     """
 
     save_score = input("\tWil je deze score opslaan (J/N): ").lower()
@@ -385,7 +349,6 @@ def read_highscore():
 
     """
     Functie voor het lezen van de score.
-    Hier word de naam + score van het speler uitgelezen uit een pickle bestand
     """
 
 
@@ -398,7 +361,6 @@ def limit(code):
 
     """
     Functie voor het checken of de lengte van het code buiten de 4 cijfers vallen.
-    Als het buite de 4 cijfers vallen word er een AssertionError terug gestuurd naar het speler
     """
 
     try:
